@@ -8,3 +8,5 @@ export const INIT_TODO_LIST = [
     title: "Todo2",
   },
 ];
+
+export const INIT_UNIQUE_ID = INIT_TODO_LIST.length;
