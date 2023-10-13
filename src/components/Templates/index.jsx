@@ -6,10 +6,12 @@ import styles from "./styles.module.css";
 export const TodoTemplate = () => {
   const [originTodoList, setOriginTodoList] = useState(INIT_TODO_LIST);
 
-  const handleDeleteTodo = (id) => {
-    const newTodos = originTodoList.filter((todo) => todo.id !== id);
+  const handleDeleteTodo = (targetId, targetTitle) => {
+    if (window.confirm(`「${targetTitle}」のtodoを削除しますか？`)) {
+      const newTodos = originTodoList.filter((todo) => todo.id !== targetId);
 
-    setOriginTodoList(newTodos);
+      setOriginTodoList(newTodos);
+    }
   };
 
   return (
