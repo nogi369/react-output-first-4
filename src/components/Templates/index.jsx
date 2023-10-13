@@ -27,6 +27,7 @@ export const TodoTemplate = () => {
 
       setUniqueId(nextUniqueId);
       setOriginTodoList(newTodoList);
+      setAddInputValue("");
     }
   };
 
