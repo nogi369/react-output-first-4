@@ -3,11 +3,13 @@ import { INIT_TODO_LIST, INIT_UNIQUE_ID } from "../../constants/data";
 import { TodoList } from "../Organisms/TodoList";
 import styles from "./styles.module.css";
 import { AddTodo } from "../Organisms/AddTodo";
+import { InputForm } from "../atoms/InputForm";
 
 export const TodoTemplate = () => {
   const [originTodoList, setOriginTodoList] = useState(INIT_TODO_LIST);
   const [addInputValue, setAddInputValue] = useState("");
   const [uniqueId, setUniqueId] = useState(INIT_UNIQUE_ID);
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   const onChangeAddInputValue = (e) => setAddInputValue(e.target.value);
 
@@ -39,6 +41,8 @@ export const TodoTemplate = () => {
     }
   };
 
+  const handleChangeSearchKeyword = (e) => setSearchKeyword(e.target.value);
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Todo List</h1>
@@ -47,6 +51,13 @@ export const TodoTemplate = () => {
           addInputValue={addInputValue}
           handleAddTodo={hendleAddTodo}
           onChnageTodo={onChangeAddInputValue}
+        />
+      </section>
+      <section className={styles.common}>
+        <InputForm
+          handleChangeValue={handleChangeSearchKeyword}
+          inputValue={searchKeyword}
+          placeholder={"Search Keyword"}
         />
       </section>
       <section className={styles.common}>
