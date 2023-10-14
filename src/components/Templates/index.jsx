@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { INIT_TODO_LIST, INIT_UNIQUE_ID } from "../../constants/data";
 import { TodoList } from "../Organisms/TodoList";
 import styles from "./styles.module.css";
@@ -10,6 +10,13 @@ export const TodoTemplate = () => {
   const [addInputValue, setAddInputValue] = useState("");
   const [uniqueId, setUniqueId] = useState(INIT_UNIQUE_ID);
   const [searchKeyword, setSearchKeyword] = useState("");
+  // 表示用Todoリスト
+  const showTodoList = useMemo(() => {
+    return originTodoList.filter((todo) => {
+      const regExp = new RegExp("^" + searchKeyword, "i");
+      return todo.title.match(regExp);
+    });
+  }, [originTodoList, searchKeyword]);
 
   const onChangeAddInputValue = (e) => setAddInputValue(e.target.value);
 
@@ -61,10 +68,12 @@ export const TodoTemplate = () => {
         />
       </section>
       <section className={styles.common}>
-        <TodoList
-          todoList={originTodoList}
-          handleDeleteTodo={handleDeleteTodo}
-        />
+        {showTodoList.length > 0 && (
+          <TodoList
+            todoList={showTodoList}
+            handleDeleteTodo={handleDeleteTodo}
+          />
+        )}
       </section>
     </div>
   );
