@@ -25,18 +25,18 @@ describe("【hooksテスト】useApp test", () => {
       expect(result.current[0].addInputValue).toBe(expectValue);
     });
   });
-  describe("【関数テスト】hendleAddTodo", () => {
+  describe("【関数テスト】handleAddTodo", () => {
     // 期待値
-    const expectTodoList = [];
+    let expectTodoList = [];
     // 引数
-    const eventObject = {
+    let eventObject = {
       target: {
         value: "テスト",
       },
       key: "Enter",
     };
     beforeEach(() => {
-      const eventObject = {
+      eventObject = {
         target: {
           value: "テスト",
         },
@@ -45,7 +45,7 @@ describe("【hooksテスト】useApp test", () => {
     });
     test("【正常系】todoList, uniqueIdが更新されること、addInputValueがリセットされること", () => {
       const expectTodoTitle = "Todo3";
-      const expectTodoList = INIT_TODO_LIST.concat({
+      expectTodoList = INIT_TODO_LIST.concat({
         id: 3,
         title: expectTodoTitle,
       });
@@ -55,9 +55,26 @@ describe("【hooksテスト】useApp test", () => {
       expect(result.current[0].addInputValue).toBe("");
       act(() => result.current[1].onChangeAddInputValue(eventObject));
       expect(result.current[0].addInputValue).toBe(expectTodoTitle);
-      act(() => result.current[1].hendleAddTodo(eventObject));
+      act(() => result.current[1].handleAddTodo(eventObject));
       expect(result.current[0].showTodoList).toEqual(expectTodoList);
       expect(result.current[0].addInputValue).toBe("");
+    });
+    test("【正常系】エンターキーを押していない場合、処理が発生しないこと", () => {
+      const expectTodoTitle = "Todo4";
+      expectTodoList = INIT_TODO_LIST.concat({
+        id: 3,
+        title: expectTodoTitle,
+      });
+      eventObject.target.value = expectTodoTitle;
+      eventObject.key = "";
+
+      const { result } = renderHook(() => useTodo());
+      expect(result.current[0].addInputValue).toBe("");
+      act(() => result.current[1].onChangeAddInputValue(eventObject));
+      expect(result.current[0].addInputValue).toBe(expectTodoTitle);
+      act(() => result.current[1].handleAddTodo(eventObject));
+      expect(result.current[0].showTodoList).not.toEqual(expectTodoList);
+      expect(result.current[0].addInputValue).toBe(expectTodoTitle);
     });
   });
 });

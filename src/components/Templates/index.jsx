@@ -8,7 +8,7 @@ export const TodoTemplate = () => {
   const [
     { addInputValue, searchKeyword, showTodoList },
     {
-      hendleAddTodo,
+      handleAddTodo,
       onChangeAddInputValue,
       handleChangeSearchKeyword,
       handleDeleteTodo,
@@ -21,7 +21,7 @@ export const TodoTemplate = () => {
       <section className={styles.common}>
         <AddTodo
           addInputValue={addInputValue}
-          handleAddTodo={hendleAddTodo}
+          handleAddTodo={handleAddTodo}
           onChnageTodo={onChangeAddInputValue}
         />
       </section>

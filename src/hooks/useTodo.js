@@ -18,7 +18,7 @@ export const useTodo = () => {
   const onChangeAddInputValue = (e) => setAddInputValue(e.target.value);
 
   // Todo新規登録処理
-  const hendleAddTodo = (e) => {
+  const handleAddTodo = (e) => {
     // 入力フォームが空文字でない かつ Enterキーが押された場合
     if (addInputValue !== "" && e.key === "Enter") {
       const nextUniqueId = uniqueId + 1;
@@ -52,7 +52,7 @@ export const useTodo = () => {
 
   const states = { addInputValue, searchKeyword, showTodoList };
   const actions = {
-    hendleAddTodo,
+    handleAddTodo,
     onChangeAddInputValue,
     handleChangeSearchKeyword,
     handleDeleteTodo,
