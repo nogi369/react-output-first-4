@@ -14,14 +14,16 @@ export const useTodo = () => {
     });
   }, [originTodoList, searchKeyword]);
 
+  // 入力値の変更処理
   const onChangeAddInputValue = (e) => setAddInputValue(e.target.value);
 
+  // Todo新規登録処理
   const hendleAddTodo = (e) => {
     // 入力フォームが空文字でない かつ Enterキーが押された場合
     if (addInputValue !== "" && e.key === "Enter") {
       const nextUniqueId = uniqueId + 1;
 
-      // Todoを新規登録する
+      // 追加するTodoデータ
       const newTodoList = [
         ...originTodoList,
         {
@@ -36,6 +38,7 @@ export const useTodo = () => {
     }
   };
 
+  // Todo削除処理
   const handleDeleteTodo = (targetId, targetTitle) => {
     if (window.confirm(`「${targetTitle}」のtodoを削除しますか？`)) {
       const newTodos = originTodoList.filter((todo) => todo.id !== targetId);
@@ -44,6 +47,7 @@ export const useTodo = () => {
     }
   };
 
+  // 検索キーワード変更処理
   const handleChangeSearchKeyword = (e) => setSearchKeyword(e.target.value);
 
   const states = { addInputValue, searchKeyword, showTodoList };
