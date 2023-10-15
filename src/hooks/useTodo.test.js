@@ -1,7 +1,8 @@
 import { renderHook } from "@testing-library/react";
-import { describe, expect, test } from "vitest";
+import { beforeEach, describe, expect, test } from "vitest";
 import { useTodo } from "./useTodo";
 import { act } from "react-dom/test-utils";
+import { INIT_TODO_LIST } from "../constants/data";
 
 // テストファイル全体を定義
 describe("【hooksテスト】useApp test", () => {
@@ -25,7 +26,39 @@ describe("【hooksテスト】useApp test", () => {
     });
   });
   describe("【関数テスト】hendleAddTodo", () => {
-    test("【正常系】todoList, uniqueIdが更新されること、addInputValueがリセットされること", () => {});
+    // 期待値
+    const expectTodoList = [];
+    // 引数
+    const eventObject = {
+      target: {
+        value: "テスト",
+      },
+      key: "Enter",
+    };
+    beforeEach(() => {
+      const eventObject = {
+        target: {
+          value: "テスト",
+        },
+        key: "Enter",
+      };
+    });
+    test("【正常系】todoList, uniqueIdが更新されること、addInputValueがリセットされること", () => {
+      const expectTodoTitle = "Todo3";
+      const expectTodoList = INIT_TODO_LIST.concat({
+        id: 3,
+        title: expectTodoTitle,
+      });
+      eventObject.target.value = expectTodoTitle;
+
+      const { result } = renderHook(() => useTodo());
+      expect(result.current[0].addInputValue).toBe("");
+      act(() => result.current[1].onChangeAddInputValue(eventObject));
+      expect(result.current[0].addInputValue).toBe(expectTodoTitle);
+      act(() => result.current[1].hendleAddTodo(eventObject));
+      expect(result.current[0].showTodoList).toEqual(expectTodoList);
+      expect(result.current[0].addInputValue).toBe("");
+    });
   });
 });
 
