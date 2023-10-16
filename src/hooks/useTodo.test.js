@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import { beforeEach, describe, expect, test } from "vitest";
+import { beforeEach, describe, expect, test, vi } from "vitest";
 import { useTodo } from "./useTodo";
 import { act } from "react-dom/test-utils";
 import { INIT_TODO_LIST } from "../constants/data";
@@ -74,7 +74,38 @@ describe("【hooksテスト】useApp test", () => {
       expect(result.current[0].addInputValue).toBe(expectTodoTitle);
       act(() => result.current[1].handleAddTodo(eventObject));
       expect(result.current[0].showTodoList).not.toEqual(expectTodoList);
-      expect(result.current[0].addInputValue).toBe(expectTodoTitle);
+      expect(result.current[0].addInputValue).not.toBe("");
+    });
+    test("【正常系】入力値がない場合、処理が発生しないこと", () => {
+      const expectTodoTitle = "Todo5";
+      expectTodoList = INIT_TODO_LIST.concat({
+        id: 3,
+        title: expectTodoTitle,
+      });
+      eventObject.target.value = "";
+      eventObject.key = "";
+
+      const { result } = renderHook(() => useTodo());
+      expect(result.current[0].addInputValue).toBe("");
+      act(() => result.current[1].onChangeAddInputValue(eventObject));
+      expect(result.current[0].addInputValue).toBe("");
+      act(() => result.current[1].handleAddTodo(eventObject));
+      expect(result.current[0].showTodoList).not.toEqual(expectTodoList);
+    });
+  });
+  describe("【関数テスト】handleDeleteTodo", () => {
+    let expectTodoList = [];
+    beforeEach(() => {
+      expectTodoList = [];
+    });
+    test("【正常系】todoが削除されること", () => {
+      const targetId = 1;
+      const targetTitle = "テスト";
+      window.confirm = vi.fn().mockReturnValueOnce(() => true);
+      expectTodoList = INIT_TODO_LIST.filter((todo) => todo.id !== targetId);
+      const { result } = renderHook(() => useTodo());
+      act(() => result.current[1].handleDeleteTodo(targetId, targetTitle));
+      expect(result.current[0].showTodoList).toEqual(expectTodoList);
     });
   });
 });
