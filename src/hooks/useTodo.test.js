@@ -101,8 +101,19 @@ describe("【hooksテスト】useApp test", () => {
     test("【正常系】todoが削除されること", () => {
       const targetId = 1;
       const targetTitle = "テスト";
-      window.confirm = vi.fn().mockReturnValueOnce(() => true);
+      // window.confirm = vi.fn().mockReturnValueOnce(() => true);
+      window.confirm = vi.fn().mockReturnValueOnce(true);
       expectTodoList = INIT_TODO_LIST.filter((todo) => todo.id !== targetId);
+      const { result } = renderHook(() => useTodo());
+      act(() => result.current[1].handleDeleteTodo(targetId, targetTitle));
+      expect(result.current[0].showTodoList).toEqual(expectTodoList);
+    });
+    test("【正常系】confirmでキャンセルをクリックした場合、todoが削除されないこと", () => {
+      const targetId = 1;
+      const targetTitle = "テスト";
+      // window.confirm = vi.fn().mockReturnValueOnce(false);
+      window.confirm = vi.fn().mockImplementationOnce(() => false);
+      expectTodoList = INIT_TODO_LIST;
       const { result } = renderHook(() => useTodo());
       act(() => result.current[1].handleDeleteTodo(targetId, targetTitle));
       expect(result.current[0].showTodoList).toEqual(expectTodoList);
