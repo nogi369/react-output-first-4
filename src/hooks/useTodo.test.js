@@ -10,9 +10,9 @@ describe("【hooksテスト】useApp test", () => {
   describe("【関数テスト】onChangeAddInputValue", () => {
     // テストで確認すること
     test("【正常系】addInpuValueを更新できること", () => {
-      // テストで使用するデータを用意
+      // 期待値(テストで使用するデータ)
       const expectValue = "テスト";
-      // テストデータオブジェクトの定義
+      // 引数(テストデータオブジェクトを定義)
       const eventObject = {
         target: {
           value: expectValue,
@@ -117,6 +117,19 @@ describe("【hooksテスト】useApp test", () => {
       const { result } = renderHook(() => useTodo());
       act(() => result.current[1].handleDeleteTodo(targetId, targetTitle));
       expect(result.current[0].showTodoList).toEqual(expectTodoList);
+    });
+  });
+  describe("【関数テスト】handleChangeSearchKeyword", () => {
+    test("【正常系】検索ワードがある場合、検索された結果が反映される", () => {
+      const expectValue = [INIT_TODO_LIST[0]];
+      const eventObject = {
+        target: {
+          value: "Todo1",
+        },
+      };
+      const { result } = renderHook(() => useTodo());
+      act(() => result.current[1].handleChangeSearchKeyword(eventObject));
+      expect(result.current[0].showTodoList).toEqual(expectValue);
     });
   });
 });
