@@ -131,6 +131,17 @@ describe("【hooksテスト】useApp test", () => {
       act(() => result.current[1].handleChangeSearchKeyword(eventObject));
       expect(result.current[0].showTodoList).toEqual(expectValue);
     });
+    test("【正常系】検索ワードがない場合、元のTodoリストが反映される", () => {
+      const expectValue = INIT_TODO_LIST;
+      const eventObject = {
+        target: {
+          value: "",
+        },
+      };
+      const { result } = renderHook(() => useTodo());
+      act(() => result.current[1].handleChangeSearchKeyword(eventObject));
+      expect(result.current[0].showTodoList).toEqual(expectValue);
+    });
   });
 });
 
