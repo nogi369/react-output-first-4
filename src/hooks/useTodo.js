@@ -50,13 +50,13 @@ export const useTodo = () => {
   // 検索キーワード変更処理
   const handleChangeSearchKeyword = (e) => setSearchKeyword(e.target.value);
 
-  const states = { addInputValue, searchKeyword, showTodoList };
-  const actions = {
+  return {
+    addInputValue,
+    searchKeyword,
+    showTodoList,
     handleAddTodo,
     onChangeAddInputValue,
     handleChangeSearchKeyword,
     handleDeleteTodo,
   };
-
-  return [states, actions];
 };
